@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <label for="">Usuario</label><br>
+    <input id="usuario" type="text"><br>
+    <label for="">Contraseña</label><br>
+    <input id="contraseña" type="text"><br>
+    <button type="submit" onclick="loginAJAXJQuery()">Guardar con AJAX JQuery</button>
+    <button type="submit" onclick="loginAxios()">Guardar con Axios</button>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+    <script>
+
+        function loginAJAXJQuery() {
+
+            let persona = {
+                usuario: document.getElementById('usuario').value,
+                contraseña: document.getElementById('contraseña').value
+            }
+
+            let urlencoded = `usuario=${persona.usuario}&contraseña=${persona.contraseña}`;
+
+            $.ajax({
+                url: 'procesar.php',
+                method: 'post',
+                data: JSON.stringify(persona),
+                dataType: 'json',
+                success: function (res) {
+                    console.log('Respuesta del servidor (Ajax JQUERY', res);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        //en axios se envia info de dos maneras: params para get y data para post
+        function loginAxios() {
+
+            let persona = {
+                usuario: document.getElementById('usuario').value,
+                contraseña: document.getElementById('contraseña').value
+            }
+
+            axios({
+                url: 'procesar.php',
+                method: 'post',
+                responseType: 'json',
+                // params: persona
+                data: persona
+            })
+                .then((res) => {
+                    console.log('AJAX Axios', res);
+                })
+                .catch((error) => {
+                    console.error('AJAX Axios', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
